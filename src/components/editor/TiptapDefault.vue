@@ -1,0 +1,117 @@
+<template>
+  <v-sheet v-if="editor" class="pa-10">
+    <v-card style="min-height:400px">
+
+      <v-card-title class="mr-5 ml-5">
+        <v-icon >mdi-pen</v-icon><strong class="ml-2">EDIT</strong>
+        <v-spacer></v-spacer>
+        <v-btn  style="background-color: #FFFFFF" v-on:click="this.uploadBorad">
+          <v-icon color="blue">mdi-file-upload-outline</v-icon>
+        </v-btn>
+      </v-card-title>
+
+      <MenuBar :editor="editor" class="pa-2"></MenuBar>
+      <v-card-text  >
+        <editor-content :editor="editor" class=""></editor-content>
+      </v-card-text>
+
+    </v-card>
+  </v-sheet>
+</template>
+
+<script>
+import StarterKit from '@tiptap/starter-kit'
+import { Editor, EditorContent } from '@tiptap/vue-2'
+import TextStyle from '@tiptap/extension-text-style'
+import { Color } from '@tiptap/extension-color'
+import FontFamily from '@tiptap/extension-font-family'
+import TextAlign from '@tiptap/extension-text-align'
+import Image from '@tiptap/extension-image'
+import MenuBar from "@/components/editor/MenuBar";
+import Document from '@tiptap/extension-document';
+import Placeholder from '@tiptap/extension-placeholder'
+
+const CustomDocument = Document.extend({
+  content: 'heading block*',
+})
+
+export default {
+  components: {
+    EditorContent,MenuBar
+  },
+
+  data() {
+    return {
+      editor: null,
+    }
+  },
+  methods:{
+    uploadBorad(){
+      console.log(this.editor.getJSON())
+    }
+  }
+  ,
+  mounted() {
+    this.editor = new Editor({
+      extensions: [
+        CustomDocument,
+        StarterKit.configure({
+          document: false,
+        }),
+        TextStyle,
+        Color,
+        FontFamily,
+        TextAlign.configure({
+          types: ['heading', 'paragraph'],
+        }),
+        Image,
+        Placeholder.configure({
+          placeholder: ({ node }) => {
+            if (node.type.name === 'heading') {
+              return '제목을 입력하세요'
+            }
+            return '_'
+          },
+        }),
+      ],
+          autofocus:true,
+
+    }
+
+      )
+  },
+
+  beforeUnmount() {
+    this.editor.destroy()
+  },
+}
+</script>
+
+
+<style lang="scss">
+/* Basic editor styles */
+.ProseMirror {
+  > * + * {
+    margin-top: 0.75em;
+  }
+}
+
+
+.ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #ced4da;
+  pointer-events: none;
+  height: 0;
+}
+.ProseMirror:fullscreen{
+
+}
+.ProseMirror:focus {
+  outline: none;
+}
+.v-btn{
+  margin: 5px;
+}
+
+</style>

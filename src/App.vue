@@ -24,17 +24,17 @@
         <router-link to="/dev">
           <v-btn text  ><span>dev</span></v-btn>
         </router-link>
+
+
       </div>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
+      <router-link to="/edit">
+        <v-btn text  ><span>edit</span></v-btn>
+      </router-link>
+      <v-btn icon>
+        <v-icon>mdi-login</v-icon>
       </v-btn>
     </v-app-bar>
 
