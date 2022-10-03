@@ -47,7 +47,20 @@ export default {
   },
   methods:{
     uploadBorad(){
-      console.log(this.editor.getJSON())
+      var board = this.editor.getJSON();
+      const title =  {"title":board.content[0].content[0].text};
+      Object.assign(board,title)
+      console.log(board);
+      fetch('/api/v1/board',{
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify(board) ,
+
+      }).then(node=>{
+        console.log(node);
+      })
     }
   }
   ,
