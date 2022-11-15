@@ -14,7 +14,7 @@
 <script>
 import BoardCard from "@/components/board/BoardCard";
 export default {
-  name: "BoardView",
+  name: "TechView",
   components: {BoardCard},
   data(){
     return{
@@ -22,7 +22,7 @@ export default {
     }
   },
   created() {
-    fetch("api/v1/board")
+    fetch("api/v1/board?type=tech")
         .then((response) => response.json())
         .then((data) =>
         {

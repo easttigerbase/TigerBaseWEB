@@ -1,16 +1,18 @@
 <template>
   <v-sheet v-if="editor" class="pa-10">
-    <v-card style="min-height:400px">
-
+    <v-card style="min-height:600px">
       <v-card-title class="mr-5 ml-5">
         <v-icon >mdi-pen</v-icon><strong class="ml-2">EDIT</strong>
         <v-spacer></v-spacer>
-        <v-btn  style="background-color: #FFFFFF" v-on:click="this.uploadBorad">
+        <v-btn  style="background-color: #FFFFFF" v-on:click="this.uploadBorad"  >
           <v-icon color="blue">mdi-file-upload-outline</v-icon>
         </v-btn>
       </v-card-title>
 
       <MenuBar :editor="editor" class="pa-2"></MenuBar>
+      <v-card-text>
+        <ChipEditor @chips="getChips"></ChipEditor>
+      </v-card-text>
       <v-card-text  >
         <editor-content :editor="editor" class=""></editor-content>
       </v-card-text>
@@ -30,26 +32,32 @@ import Image from '@tiptap/extension-image'
 import MenuBar from "@/components/editor/MenuBar";
 import Document from '@tiptap/extension-document';
 import Placeholder from '@tiptap/extension-placeholder'
-
+import ChipEditor from "@/components/editor/ChipEditor";
 const CustomDocument = Document.extend({
   content: 'heading block*',
 })
 
 export default {
   components: {
-    EditorContent,MenuBar
+    EditorContent,MenuBar,ChipEditor
   },
 
   data() {
     return {
       editor: null,
+      chips:null,
     }
   },
   methods:{
+    getChips(chips){
+      this.chips = chips;
+    },
     uploadBorad(){
       var board = this.editor.getJSON();
       const title =  {"title":board.content[0].content[0].text};
-      Object.assign(board,title)
+      const chips = {"chip":this.chips};
+      Object.assign(board,chips);
+      Object.assign(board,title);
       console.log(board);
       fetch('/api/v1/board',{
         method:"POST",

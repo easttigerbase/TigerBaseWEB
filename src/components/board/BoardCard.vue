@@ -1,18 +1,12 @@
 <template>
-
+  <v-hover>
   <v-card
-      :loading="loading"
-
       max-width="374"
       min-height="300"
+      v-on:click="viewCard"
+
   >
-    <template slot="progress">
-      <v-progress-linear
-          color="deep-purple"
-          height="10"
-          indeterminate
-      ></v-progress-linear>
-    </template>
+
 
     <v-card-title><strong>{{ this.item.title }}</strong></v-card-title>
 
@@ -29,27 +23,20 @@
 
       </span>
     </v-card-text>
-
     <v-divider class="mx-4"></v-divider>
-
     <v-card-text>
       <v-chip-group
-          v-model="selection"
-          active-class="deep-purple accent-4 white--text"
+          active-class="blue accent-4 white--text"
           column
       >
-        <v-chip>spring</v-chip>
+        <v-chip disabled color="blue" text-color="white" style="opacity: unset" v-for="(chip,idx) in item.chip" :key="idx">{{ chip }}</v-chip>
 
-        <v-chip>node</v-chip>
-
-        <v-chip></v-chip>
-
-        <v-chip>9:00PM</v-chip>
       </v-chip-group>
     </v-card-text>
-
-    <v-card-actions>
+    <div>{{this.$store.getters.isLogin}}</div>
+    <v-card-actions >
       <v-btn
+          v-if="Boolean(this.$store.getters.isLogin)"
           color="deep-purple lighten-2"
           text
           @click="reserve"
@@ -58,13 +45,14 @@
       </v-btn>
     </v-card-actions>
   </v-card>
+  </v-hover>
 </template>
 <script>
 export default {
   name:'BoardCard',
   data: () => ({
     loading: false,
-    selection: 1,
+
   }),
   props:{
     item:Object,
@@ -73,9 +61,11 @@ export default {
   methods: {
     reserve () {
       this.loading = true
-
       setTimeout(() => (this.loading = false), 2000)
     },
+    viewCard(){
+      this.$router.push('/tech/'+this.item.id);
+    }
   },
 }
 </script>
