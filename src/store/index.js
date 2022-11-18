@@ -9,7 +9,8 @@ export const store = new Vuex.Store({
 
     state:{
         user:{
-
+            username:"admin",
+            password:"나는짱짱맨"
         }
     },
     mutations: {
@@ -25,8 +26,11 @@ export const store = new Vuex.Store({
         doLogin(context,payload) {
 
             if( context.state.user.username ===payload.username && context.state.user.password === payload.password){
-                alert(sessionStorage.getItem("isLogin"));
                 context.commit("login");
+                if(context.getters.isLogin){
+                    alert("Login");
+                }
+
             }
         },
         doLogout(context) {

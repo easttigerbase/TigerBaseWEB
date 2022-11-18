@@ -4,7 +4,7 @@
       <v-card-title class="mr-5 ml-5">
         <v-icon >mdi-pen</v-icon><strong class="ml-2">EDIT</strong>
         <v-spacer></v-spacer>
-        <v-btn  style="background-color: #FFFFFF" v-on:click="this.uploadBorad"  >
+        <v-btn  style="background-color: #FFFFFF" v-on:click="this.uploadBorad">
           <v-icon color="blue">mdi-file-upload-outline</v-icon>
         </v-btn>
       </v-card-title>
@@ -46,6 +46,7 @@ export default {
     return {
       editor: null,
       chips:null,
+      visible:""
     }
   },
   methods:{
@@ -53,23 +54,39 @@ export default {
       this.chips = chips;
     },
     uploadBorad(){
-      var board = this.editor.getJSON();
-      const title =  {"title":board.content[0].content[0].text};
-      const chips = {"chip":this.chips};
-      Object.assign(board,chips);
-      Object.assign(board,title);
-      console.log(board);
-      fetch('/api/v1/board',{
-        method:"POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body:JSON.stringify(board) ,
+      if(this.$store.getters.isLogin){
+        var board = this.editor.getJSON();
+        const title =  {"title":board.content[0].content[0].text};
+        const chips = {"chip":this.chips};
+        const type = {"type":"tech"};
 
-      }).then(node=>{
-        console.log(node);
-      })
+        Object.assign(board,chips);
+        Object.assign(board,title);
+        Object.assign(board,type);
+        console.log(board);
+        fetch('/api/v1/board',{
+          method:"POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body:JSON.stringify(board) ,
+
+        }).then(node=>{
+          if (node.status===200){
+            window.alert('게시되었습니다.');
+          }
+          else{
+            window.alert('error.');
+          }
+
+        })
+      }
+      else{
+        window.alert('로그인 하세유');
+      }
     }
+
+
   }
   ,
   mounted() {

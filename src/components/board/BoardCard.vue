@@ -33,7 +33,6 @@
 
       </v-chip-group>
     </v-card-text>
-    <div>{{this.$store.getters.isLogin}}</div>
     <v-card-actions >
       <v-btn
           v-if="Boolean(this.$store.getters.isLogin)"
