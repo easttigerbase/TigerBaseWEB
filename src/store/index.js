@@ -10,7 +10,7 @@ export const store = new Vuex.Store({
     state:{
         user:{
             username:"admin",
-            password:"나는짱짱맨"
+            password:"sksmsWkdWkdaos"
         }
     },
     mutations: {
