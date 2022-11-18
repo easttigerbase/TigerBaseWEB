@@ -11,7 +11,7 @@
       {{i}}
     </v-chip>
     </v-chip-group>
-    <editor-content class="content" :editor="editor" />
+    <editor-content  class="content" :editor="editor" />
   </v-card>
 </template>
 
@@ -54,9 +54,17 @@ export default {
 
   },
 
+  computed:{
+    isLogin(){
+      return this.$store.getters.isLogin;
+    },
+  },
   watch: {
-    editable() {
-      this.editor.setEditable(this.editable)
+    isLogin() {
+      if(this.isLogin){
+        this.editor.setEditable(this.editable)
+      }
+
     },
   },
 
@@ -93,7 +101,6 @@ export default {
 }
 
 [contenteditable=false] {
-
-  cursor: not-allowed;
+  cursor: default;
 }
 </style>

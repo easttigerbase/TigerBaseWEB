@@ -58,7 +58,7 @@ export default {
         var board = this.editor.getJSON();
         const title =  {"title":board.content[0].content[0].text};
         const chips = {"chip":this.chips};
-        const type = {"type":"tech"};
+        const type = {"board-type":"tech"};
 
         Object.assign(board,chips);
         Object.assign(board,title);

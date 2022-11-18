@@ -14,7 +14,7 @@
             transition="scale-transition"
             width="30"
         />
-        <strong class="blue--text">TIGERBASE</strong>
+        <strong class="blue--text" @click="home">TIGERBASE</strong>
       </div>
       <v-spacer></v-spacer>
       <div>
@@ -79,6 +79,9 @@ export default {
     doLogout(){
       this.$store.dispatch("doLogout", );
       this.dialog = false;
+    },
+    home(){
+      this.$router.go(0);
     }
 
   },
